@@ -88,7 +88,7 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.root}>
+    <Container maxWidth="xs" className={classes.root}>
       <div className={classes.paper}>
         <Controls.Avatar icon={<LockOutlined fontSize="large" />} />
         <Typography component="h1" variant="h5">

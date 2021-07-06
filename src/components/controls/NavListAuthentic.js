@@ -19,15 +19,17 @@ const NavListAuthentic = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
   const handleClick = () => {
     dispatch(logOut());
   };
+
   return (
     <Box className={classes.navList}>
       <IconButton color="inherit" aria-label="user info">
         <AccountCircle />
       </IconButton>
-      <Typography color="inherit" variant="subtitle2" componet={Link}>
+      <Typography color="inherit" variant="subtitle2">
         Hi, {user.firstName}
       </Typography>
       <Button color="inherit" onClick={handleClick}>

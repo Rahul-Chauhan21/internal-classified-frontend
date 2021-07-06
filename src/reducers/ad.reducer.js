@@ -2,6 +2,7 @@ import { adConstants } from "../actions/constants";
 
 const initState = {
   posts: [],
+  approvedAds: [],
   ad: null,
   message: null,
   error: null,
@@ -83,6 +84,21 @@ export default (state = initState, action) => {
         ...state,
         error: action.payload.error,
         request: false,
+      };
+      break;
+
+    case adConstants.GETAPPROVEDADS_SUCCESS:
+      state = {
+        ...state,
+        approvedAds: action.payload.approvedAds,
+        error: null,
+      };
+      break;
+
+    case adConstants.GETAPPROVEDADS_FAILURE:
+      state = {
+        ...state,
+        error: action.payload.error,
       };
       break;
   }

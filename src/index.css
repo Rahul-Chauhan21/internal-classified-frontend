@@ -23,7 +23,7 @@ main {
 }
 
 hr {
-  height: 2px;
+  height: 2px !important;
   background: #333;
   border: none;
   width: 10%;

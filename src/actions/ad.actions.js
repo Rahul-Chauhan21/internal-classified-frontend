@@ -168,3 +168,33 @@ export const createAd = (ad, token) => {
     }
   };
 };
+
+export const getAds = () => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get("/ads/approvedAds");
+      if (res.status === 200) {
+        const { ads } = res.data;
+        dispatch({
+          type: adConstants.GETAPPROVEDADS_SUCCESS,
+          payload: {
+            approvedAds: ads,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 404
+      ) {
+        dispatch({
+          type: adConstants.GETAPPROVEDADS_FAILURE,
+          payload: {
+            error: err.response.data,
+          },
+        });
+      }
+    }
+  };
+};

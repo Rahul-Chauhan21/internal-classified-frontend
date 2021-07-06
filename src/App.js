@@ -4,11 +4,12 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import CreateAdForm from "./components/CreateAdForm";
 import PopularCategories from "./components/PopularCategories";
-import AdCard from "./components/AdCard";
+import AdCards from "./components/AdCards";
 import Footer from "./components/Footer";
 import AdDetails from "./components/AdDetails";
 import ManageAds from "./components/ManageAds";
 import ScrollButton from "./components/ScrollButton";
+import Dashboard from "./components/Dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,13 +32,14 @@ function App() {
       </header>
       <div className={classes.toolbar}></div>
       <main>
-        <Login />
+        {/* <Login /> */}
         {/* <SignUp /> */}
         {/* <CreateAdForm /> */}
         {/* <PopularCategories /> */}
-        {/* <AdCard /> */}
+        {/* <AdCards /> */}
         {/* <AdDetails /> */}
-        <ManageAds />
+        {/* <ManageAds /> */}
+        {/* <Dashboard /> */}
       </main>
       <ScrollButton />
       <Footer />

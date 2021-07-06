@@ -19,6 +19,7 @@ export default (state = initState, action) => {
         error: null,
       };
       break;
+
     case userConstants.CREATEUSER_FAILURE:
       state = {
         ...state,
@@ -26,6 +27,7 @@ export default (state = initState, action) => {
         error: action.payload.error,
       };
       break;
+
     case userConstants.USER_AUTHDETAILS:
       state = {
         ...state,
@@ -34,6 +36,22 @@ export default (state = initState, action) => {
         firstName: action.payload.firstName,
         id: action.payload._id,
       };
+      break;
+
+    case userConstants.GETUSER_SUCCESS:
+      state = {
+        ...state,
+        user: action.payload.user,
+        error: null,
+      };
+      break;
+
+    case userConstants.GETUSER_FAILURE:
+      state = {
+        ...state,
+        error: action.payload.error,
+      };
+      break;
   }
   return state;
 };

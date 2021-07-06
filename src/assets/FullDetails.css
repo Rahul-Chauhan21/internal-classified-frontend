@@ -100,7 +100,7 @@
   .details .big-img {
     margin: 0.5rem 0 0 0;
   }
-  .MuiBox-root {
+  .comments > .MuiBox-root {
     flex-direction: column;
   }
   .carousel .thumbs-wrapper {

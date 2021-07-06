@@ -61,7 +61,7 @@ const Footer = () => {
               </Typography>
             </Grid>
 
-            <Grid item item lg={3} sm={6} xs={12}>
+            <Grid item lg={3} sm={6} xs={12}>
               <Typography variant="h6" gutterBottom>
                 POPULAR SEARCHES
               </Typography>
@@ -78,7 +78,7 @@ const Footer = () => {
                 Dogs
               </Typography>
             </Grid>
-            <Grid item item lg={3} sm={6} xs={12}>
+            <Grid item lg={3} sm={6} xs={12}>
               <Typography variant="h6" gutterBottom>
                 ABOUT US
               </Typography>
@@ -95,7 +95,7 @@ const Footer = () => {
                 Buisness Packages
               </Typography>
             </Grid>
-            <Grid item item lg={3} sm={6} xs={12}>
+            <Grid item lg={3} sm={6} xs={12}>
               <Typography variant="h6" gutterBottom>
                 GRADS-ADVERT
               </Typography>

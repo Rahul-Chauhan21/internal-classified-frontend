@@ -10,7 +10,7 @@ import React, { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   table: {
-    marginTop: theme.spacing(3),
+    marginTop: "9px",
     tableLayout: "fixed",
     overflowX: "auto",
     "& thead th": {

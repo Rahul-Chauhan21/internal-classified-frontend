@@ -2,68 +2,48 @@
   width: 25%;
   float: left;
 }
-.topPicks .heading {
-  text-align: center;
+.picks {
+  margin-bottom: 1rem;
 }
-.topPicks .picks figure {
+.picks figure {
   border: solid 1px #ccc;
   border-bottom: solid 5px #ccc;
-  padding: 15px;
+  padding: 0 15px 15px;
   margin: 0 5px;
 }
-.topPicks .picks figure:hover {
+.picks figure:hover {
   cursor: pointer;
   opacity: 0.9;
   border-bottom: solid 5px #2a65ea;
 }
-.topPicks .picks figure .productImage {
+.picks figure .productImage {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 158px;
+  height: 160px;
+  padding-top: 0;
 }
-.topPicks .picks figure img {
+.picks figure img {
   display: block;
-  max-width: 221px;
-  max-height: 158px;
-  width: auto;
-  height: auto;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
-.topPicks .picks div {
+.picks div {
   padding: 5px 0;
 }
-.topPicks .picks .first {
+.picks .first {
   overflow: hidden;
 }
-.topPicks .picks .first .addToFvrt {
+.picks .first > .date {
   float: right;
-  font-size: 20px;
 }
-.topPicks .picks .first .price {
+.picks .first .price {
   font-size: 20px;
   font-weight: 700;
   color: #333;
 }
-.topPicks .picks .second .adTitle {
+.picks .second .adTitle {
   text-transform: uppercase;
-}
-.productID {
-  display: none;
-}
-
-.container {
-  max-width: 1250px;
-  margin: auto;
-  overflow: hidden;
-  padding: 0 20px;
-}
-
-@media (max-width: 900px) {
-  .oneThird,
-  .oneFourth,
-  .oneFifth {
-    width: 100%;
-    float: none;
-  }
 }
