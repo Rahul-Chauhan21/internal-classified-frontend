@@ -1,0 +1,69 @@
+.oneFourth {
+  width: 25%;
+  float: left;
+}
+.topPicks .heading {
+  text-align: center;
+}
+.topPicks .picks figure {
+  border: solid 1px #ccc;
+  border-bottom: solid 5px #ccc;
+  padding: 15px;
+  margin: 0 5px;
+}
+.topPicks .picks figure:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  border-bottom: solid 5px #2a65ea;
+}
+.topPicks .picks figure .productImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 158px;
+}
+.topPicks .picks figure img {
+  display: block;
+  max-width: 221px;
+  max-height: 158px;
+  width: auto;
+  height: auto;
+}
+.topPicks .picks div {
+  padding: 5px 0;
+}
+.topPicks .picks .first {
+  overflow: hidden;
+}
+.topPicks .picks .first .addToFvrt {
+  float: right;
+  font-size: 20px;
+}
+.topPicks .picks .first .price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+.topPicks .picks .second .adTitle {
+  text-transform: uppercase;
+}
+.productID {
+  display: none;
+}
+
+.container {
+  max-width: 1250px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+@media (max-width: 900px) {
+  .oneThird,
+  .oneFourth,
+  .oneFifth {
+    width: 100%;
+    float: none;
+  }
+}
