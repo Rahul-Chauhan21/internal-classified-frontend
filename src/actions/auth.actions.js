@@ -9,12 +9,13 @@ export const logIn = (user) => {
       });
 
       if (res.status === 200) {
-        const { token, postedAds, catalogue, firstName, _id } = res.data;
+        const { token, postedAds, catalogue, firstName, _id, role } = res.data;
         localStorage.setItem("token", token);
         dispatch({
           type: authConstants.LOGIN_SUCCESS,
           payload: {
             token,
+            role,
           },
         });
 

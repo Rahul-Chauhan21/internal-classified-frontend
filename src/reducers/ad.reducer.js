@@ -52,6 +52,7 @@ export default (state = initState, action) => {
       state = {
         ...state,
         error: action.payload.error,
+        message: null,
       };
       break;
 
@@ -99,6 +100,34 @@ export default (state = initState, action) => {
       state = {
         ...state,
         error: action.payload.error,
+      };
+      break;
+
+    case adConstants.REQUEST:
+      state = {
+        ...state,
+        error: null,
+        message: null,
+      };
+      break;
+
+    case adConstants.UPDATEPOST_SUCCESS:
+      const filtered = state.posts.filter(
+        (post) => post._id !== action.payload.post._id
+      );
+      state = {
+        ...state,
+        posts: [...filtered, action.payload.post],
+        error: null,
+        message: "Updated!",
+      };
+      break;
+
+    case adConstants.UPDATEPOST_FAILURE:
+      state = {
+        ...state,
+        error: action.payload.error,
+        message: null,
       };
       break;
   }

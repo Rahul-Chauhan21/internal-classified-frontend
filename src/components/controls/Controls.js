@@ -5,6 +5,7 @@ import Checkbox from "./Checkbox";
 import Button from "./Button";
 import ActionButton from "./ActionButton";
 import Avatar from "./Avatar";
+import Switch from "./Switch";
 
 export const Controls = {
   Input,
@@ -14,4 +15,5 @@ export const Controls = {
   Button,
   ActionButton,
   Avatar,
+  Switch,
 };

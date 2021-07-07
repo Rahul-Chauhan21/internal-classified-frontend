@@ -2,6 +2,7 @@ import { authConstants } from "../actions/constants";
 
 const initState = {
   token: null,
+  role: null,
   error: null,
 };
 
@@ -11,6 +12,7 @@ export default (state = initState, action) => {
       state = {
         ...state,
         token: action.payload.token,
+        role: action.payload.role,
         error: null,
       };
       break;

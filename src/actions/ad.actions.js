@@ -198,3 +198,50 @@ export const getAds = () => {
     }
   };
 };
+
+export const editAd = (token, id, ad) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `/ads/${id}`,
+        { ...ad },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+      if (res.status === 200) {
+        const { ad } = res.data;
+        dispatch({
+          type: adConstants.UPDATEPOST_SUCCESS,
+          payload: {
+            post: ad,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 404
+      ) {
+        dispatch({
+          type: adConstants.UPDATEPOST_FAILURE,
+          payload: {
+            error: err.response.data,
+          },
+        });
+      }
+    }
+  };
+};
+
+export const requestCall = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: adConstants.REQUEST,
+    });
+  };
+};

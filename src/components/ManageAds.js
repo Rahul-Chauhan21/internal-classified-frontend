@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts, deletePost } from "../actions/ad.actions";
-
+import { getPosts, deletePost, requestCall } from "../actions/ad.actions";
 import {
   Container,
   Paper,
@@ -14,6 +13,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { Controls } from "./controls/Controls";
 import { EditOutlined, DeleteForever } from "@material-ui/icons";
 import useTable from "../hooks/useTable";
+import Popup from "./Popup";
+import EditAdForm from "./EditAdForm";
 import "../assets/responsivetable.css";
 
 const Alert = (props) => {
@@ -32,10 +33,12 @@ const headCells = [
 const ManageAds = () => {
   const [state, setState] = React.useState({
     open: false,
-    vertical: "center",
+    vertical: "bottom",
     horizontal: "center",
   });
   const { vertical, horizontal, open } = state;
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [openPopup, setOpenPopup] = useState(false);
 
   const auth = useSelector((state) => state.auth);
   const ads = useSelector((state) => state.ads);
@@ -49,6 +52,11 @@ const ManageAds = () => {
     ads.posts,
     headCells
   );
+
+  const openInPopup = (item) => {
+    setRecordForEdit(item);
+    setOpenPopup(true);
+  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -97,12 +105,9 @@ const ManageAds = () => {
                   <div>
                     <Controls.ActionButton
                       color="primary"
-                      //   component={Link}
-                      to={{
-                        pathname: ``,
-                        state: {
-                          //   id: record._id,
-                        },
+                      onClick={() => {
+                        dispatch(requestCall());
+                        openInPopup(record);
                       }}
                     >
                       <EditOutlined fontSize="small" />
@@ -132,6 +137,13 @@ const ManageAds = () => {
           {ads.message}
         </Alert>
       </Snackbar>
+      <Popup
+        title="Edit Ad Form"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <EditAdForm recordForEdit={recordForEdit} />
+      </Popup>
     </Container>
   );
 };

@@ -32,13 +32,13 @@ function App() {
       </header>
       <div className={classes.toolbar}></div>
       <main>
-        {/* <Login /> */}
+        <Login />
         {/* <SignUp /> */}
         {/* <CreateAdForm /> */}
         {/* <PopularCategories /> */}
         {/* <AdCards /> */}
         {/* <AdDetails /> */}
-        {/* <ManageAds /> */}
+        <ManageAds />
         {/* <Dashboard /> */}
       </main>
       <ScrollButton />
