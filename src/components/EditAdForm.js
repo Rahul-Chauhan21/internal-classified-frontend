@@ -44,8 +44,6 @@ const EditAdForm = (props) => {
   const classes = useStyles();
   const ads = useSelector((state) => state.ads);
   const auth = useSelector((state) => state.auth);
-  const userSelector = useSelector((state) => state.user);
-  const { user } = userSelector;
   const dispatch = useDispatch();
 
   useEffect(() => {

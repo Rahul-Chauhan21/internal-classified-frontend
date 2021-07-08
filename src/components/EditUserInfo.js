@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createUser } from "../actions";
+import { editUserInfo } from "../actions";
 
 import {
-  Grid,
   Typography,
   Button,
   Container,
@@ -12,18 +11,10 @@ import {
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { useForm, Form } from "../hooks/useForm";
 import { Controls } from "../components/controls/Controls";
-
-const initialFValues = {
-  firstName: "",
-  lastName: "",
-  contactInfo: "",
-  email: "",
-  password: "",
-};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,26 +28,26 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  submitButton: {
-    margin: theme.spacing(3, 0, 2),
-  },
+
   error: {
     marginTop: theme.spacing(2),
     width: "75%",
   },
-  link: {
-    "&:hover": {
-      color: "#1890ff !important",
-    },
-  },
 }));
 
-const SignUp = () => {
+const EditUserInfo = () => {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
+
+  const initialFValues = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    contactInfo: user.contactInfo,
+    email: user.email,
+  };
+
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const validateForm = (fieldValues = values) => {
     let temp = { ...errors };
@@ -87,12 +78,6 @@ const SignUp = () => {
       ? "*Input a valid Email Address"
       : "";
 
-    temp.password = !fieldValues.password
-      ? "*This field is required."
-      : fieldValues.password.length < 6
-      ? "*Minimum length required is 6"
-      : "";
-
     setErrors({
       ...temp,
     });
@@ -100,7 +85,7 @@ const SignUp = () => {
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
 
-  const { values, errors, setErrors, handleInputChange } = useForm(
+  const { values, setValues, errors, setErrors, handleInputChange } = useForm(
     initialFValues,
     false,
     validateForm
@@ -108,29 +93,23 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, contactInfo, email, password } = values;
+    const { firstName, lastName, contactInfo, email } = values;
     if (validateForm()) {
-      const user = {
+      const req = {
         firstName,
         lastName,
         contactInfo,
         email,
-        password,
       };
-      dispatch(createUser(user));
-      setTimeout(() => {
-        history.push("/login");
-      }, 1000);
+      dispatch(editUserInfo(auth.token, req, user.id));
     }
   };
-
-  if (auth.token) return <Redirect to="/" />;
 
   return (
     <Container component="main" maxWidth="xs" className={classes.root}>
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Sign Up
+          Edit Profile
         </Typography>
         <Form onSubmit={handleSubmit} style={{ width: "75%" }}>
           <Controls.Input
@@ -170,36 +149,12 @@ const SignUp = () => {
             fullWidth
           />
 
-          <Controls.Input
-            name="password"
-            label="Password"
-            type="password"
-            value={values.password}
-            onChange={handleInputChange}
-            error={errors.password}
-            fullWidth
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submitButton}
-          >
-            Sign Up
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <MuiLink
-                component={Link}
-                to="/login"
-                variant="body2"
-                className={classes.link}
-              >
-                Already a User?
-              </MuiLink>
-            </Grid>
-          </Grid>
+          <div style={{ marginTop: "1rem" }}>
+            <Button style={{ marginRight: "5px" }}>Discard</Button>
+            <Button type="submit" variant="contained" color="primary">
+              Save Changes
+            </Button>
+          </div>
         </Form>
         {user.error && (
           <Alert
@@ -224,4 +179,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default EditUserInfo;

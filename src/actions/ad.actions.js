@@ -245,3 +245,80 @@ export const requestCall = () => {
     });
   };
 };
+
+export const getCatalogue = (token) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get("/ads/myCatalogueAds", {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      });
+
+      if (res.status === 200) {
+        const { catalogue } = res.data;
+        dispatch({
+          type: adConstants.GETCATALOGUE_SUCCESS,
+          payload: {
+            catalogue,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 403
+      ) {
+        console.log(err.response);
+        dispatch({
+          type: adConstants.GETCATALOGUE_FAILURE,
+          payload: {
+            error: "Failed to fetch Catalogue",
+          },
+        });
+      }
+    }
+  };
+};
+
+export const buyAd = (token, id) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `/ads/buyAd/${id}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        const { ad } = res.data;
+        dispatch({
+          type: adConstants.BUY_STATUS,
+          payload: {
+            ad,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 403
+      ) {
+        dispatch({
+          payload: {
+            type: adConstants.BUY_FAILURE,
+            error: "Could'nt Make a Purchase",
+          },
+        });
+      }
+    }
+  };
+};

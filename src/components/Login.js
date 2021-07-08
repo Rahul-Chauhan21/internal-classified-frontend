@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import {
   Grid,
   Typography,
@@ -41,12 +41,18 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     width: "75%",
   },
+  link: {
+    "&:hover": {
+      color: "#1890ff !important",
+    },
+  },
 }));
 
 const Login = () => {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const validateForm = (fieldValues = values) => {
     let temp = {};
@@ -83,9 +89,11 @@ const Login = () => {
         password,
       };
       dispatch(logIn(user));
-      window.alert("Check console: Login");
+      history.goBack();
     }
   };
+
+  if (auth.token) return <Redirect to={"/"} />;
 
   return (
     <Container maxWidth="xs" className={classes.root}>
@@ -127,7 +135,12 @@ const Login = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <MuiLink to="" variant="body2">
+              <MuiLink
+                component={Link}
+                to="/signup"
+                variant="body2"
+                className={classes.link}
+              >
                 New User? Sign Up!
               </MuiLink>
             </Grid>

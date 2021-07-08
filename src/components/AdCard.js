@@ -1,10 +1,18 @@
 import React from "react";
-import { Box, makeStyles, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+
 import "../assets/adCard.css";
 
-const AdCard = ({ name, img, price, category, date }) => {
+const AdCard = ({ id, name, img, price, category, date }) => {
+  const history = useHistory();
+
   return (
-    <Box component="div" className="picks">
+    <Box
+      component="div"
+      className="picks"
+      onClick={() => history.push(`/ad/${id}`)}
+    >
       <figure>
         <div className="productImage">
           <img src={img} alt={name} />
@@ -20,7 +28,7 @@ const AdCard = ({ name, img, price, category, date }) => {
               {date}
             </Typography>
           </div>
-          <div class="second">
+          <div className="second">
             <Typography variant="subtitle1" className="adTitle">
               {name}
             </Typography>

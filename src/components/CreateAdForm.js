@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { clearImgArray, createAd } from "../actions";
@@ -9,7 +10,6 @@ import {
   Typography,
   Paper,
   makeStyles,
-  CircularProgress,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useForm, Form } from "../hooks/useForm";
@@ -79,6 +79,7 @@ const CreateAdForm = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(clearImgArray());
@@ -121,10 +122,12 @@ const CreateAdForm = () => {
             imageUrls: result,
           };
           dispatch(createAd(ad, auth.token));
+          history.push("/dashboard");
         }
       );
     }
   };
+
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Paper className={classes.pageConent}>

@@ -1,5 +1,11 @@
 import React from "react";
-import { Grid, Container, Typography, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Container,
+  Typography,
+  makeStyles,
+  Hidden,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,41 +49,44 @@ const Footer = () => {
       <div className={classes.footerTop}>
         <Container maxWidth="lg" className={classes.root}>
           <Grid container align="center">
-            <Grid item lg={3} sm={6} xs={12}>
-              <Typography variant="h6" gutterBottom>
-                POPULAR CATEGORIES
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Cars
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Mobile Phones
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Electronics
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Furniture
-              </Typography>
-            </Grid>
-
-            <Grid item lg={3} sm={6} xs={12}>
-              <Typography variant="h6" gutterBottom>
-                POPULAR SEARCHES
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Bikes
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Watches
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Books
-              </Typography>
-              <Typography variant="body2" component="p" gutterBottom>
-                Dogs
-              </Typography>
-            </Grid>
+            <Hidden smDown>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  POPULAR CATEGORIES
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Cars
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Mobile Phones
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Electronics
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Furniture
+                </Typography>
+              </Grid>
+            </Hidden>
+            <Hidden smDown>
+              <Grid item lg={3} sm={6} xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  POPULAR SEARCHES
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Bikes
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Watches
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Books
+                </Typography>
+                <Typography variant="body2" component="p" gutterBottom>
+                  Dogs
+                </Typography>
+              </Grid>
+            </Hidden>
             <Grid item lg={3} sm={6} xs={12}>
               <Typography variant="h6" gutterBottom>
                 ABOUT US

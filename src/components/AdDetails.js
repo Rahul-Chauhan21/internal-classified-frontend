@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdDetails, postComment } from "../actions";
+import { useParams, useHistory } from "react-router";
+import {
+  getAdDetails,
+  postComment,
+  addToCatalogue,
+  removeFromCatalogue,
+} from "../actions";
+// import { buyAd } from "../actions/ad.actions";
 import {
   Container,
   makeStyles,
@@ -56,31 +63,36 @@ const AdDetails = () => {
   const { ad, userInfo } = ads;
   const { comments } = commentsSelector;
 
+  const { id } = useParams();
+  const history = useHistory();
+
+  const [buy, setBuy] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     fetchAdDetails();
   }, []);
 
-  const fetchAdDetails = (id = "60e3558a1b0b412dfc5df9c3") => {
+  const fetchAdDetails = () => {
     dispatch(getAdDetails(id));
   };
 
-  const toggle = () => {
+  const toggle = (type) => {
     if (!auth.token) {
-      window.alert("Login first");
-      return;
+      history.push("/login");
     }
 
-    window.alert("toggling");
+    if (type === "push") {
+      dispatch(addToCatalogue(auth.token, id));
+    } else dispatch(removeFromCatalogue(auth.token, id));
   };
 
   const handleBuy = () => {
     if (!auth.token) {
-      window.alert("Login first");
-      return;
+      history.push("/login");
     }
-    window.alert("Handle Buy!");
+    setBuy(true);
   };
 
   return (
@@ -136,7 +148,7 @@ const AdDetails = () => {
                       return (
                         <IconButton
                           aria-label="Add to Favorites"
-                          onClick={() => toggle()}
+                          onClick={() => toggle("push")}
                         >
                           <FavoriteBorder />
                         </IconButton>
@@ -150,7 +162,7 @@ const AdDetails = () => {
                         return (
                           <IconButton
                             aria-label="Add to Favorites"
-                            onClick={() => toggle()}
+                            onClick={() => toggle("push")}
                           >
                             <FavoriteBorder />
                           </IconButton>
@@ -159,7 +171,7 @@ const AdDetails = () => {
                         return (
                           <IconButton
                             aria-label="Remove From Favorites"
-                            onClick={() => toggle()}
+                            onClick={() => toggle("pull")}
                           >
                             <Favorite />
                           </IconButton>
@@ -174,19 +186,36 @@ const AdDetails = () => {
                 </Box>
               </Box>
               <center>
-                {auth.token && user.id === userInfo._id ? (
-                  <></>
-                ) : (
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    className={classes.buyBtn}
-                    onClick={() => handleBuy()}
-                  >
-                    Buy
-                  </Button>
-                )}
+                {(() => {
+                  if (buy === true) {
+                    return (
+                      <Alert
+                        className={classes.error}
+                        style={{ justifyContent: "center" }}
+                        severity="Success"
+                      >
+                        Ad Sold!
+                      </Alert>
+                    );
+                  }
+
+                  if (!auth.token)
+                    return (
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        className={classes.buyBtn}
+                        onClick={() => handleBuy()}
+                      >
+                        Buy
+                      </Button>
+                    );
+                  if (auth.token && user.id === userInfo._id) {
+                    return <></>;
+                  }
+                })()}
               </center>
+
               <Typography variant="h6" align="center" gutterBottom>
                 Comments
               </Typography>
@@ -218,68 +247,74 @@ const AdDetails = () => {
                   </Typography>
                 )}
               </div>
+              {ad.status !== "Sold" && (
+                <Formik
+                  initialValues={{
+                    comment: "",
+                  }}
+                  onSubmit={async (values) => {
+                    //let formData = new FormData();
+                    if (!auth.token) {
+                      history.push("/login");
+                    }
 
-              <Formik
-                initialValues={{
-                  comment: "",
-                }}
-                onSubmit={async (values) => {
-                  //let formData = new FormData();
-                  if (!auth.token) {
-                    window.alert("Login first");
-                    return;
-                  }
+                    const commentData = {
+                      adDetails: ad._id,
+                      date: Date.now(),
+                      userDetails: user.firstName,
+                      description: values.comment,
+                      userId: user.id,
+                    };
 
-                  const commentData = {
-                    adDetails: ad._id,
-                    date: Date.now(),
-                    userDetails: user.firstName,
-                    description: values.comment,
-                    userId: user.id,
-                  };
+                    dispatch(postComment(auth.token, commentData));
 
-                  dispatch(postComment(auth.token, commentData));
+                    values.comment = "";
+                  }}
+                  validationSchema={yup.object().shape({
+                    comment: yup
+                      .string()
+                      .min(5, "Too Short!")
+                      .required("*Input a message!"),
+                  })}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleSubmit,
+                    handleChange,
+                  }) => (
+                    <form onSubmit={handleSubmit} className="commentForm">
+                      <TextField
+                        placeholder="Comment Here!"
+                        multiline
+                        rows={2}
+                        margin="normal"
+                        variant="outlined"
+                        id="comment"
+                        name="comment"
+                        value={values.comment}
+                        onChange={handleChange}
+                        error={touched.comment && Boolean(errors.comment)}
+                        helperText={touched.comment && errors.comment}
+                      />
 
-                  values.comment = "";
-                }}
-                validationSchema={yup.object().shape({
-                  comment: yup
-                    .string()
-                    .min(5, "Too Short!")
-                    .required("*Input a message!"),
-                })}
-              >
-                {({ values, errors, touched, handleSubmit, handleChange }) => (
-                  <form onSubmit={handleSubmit} className="commentForm">
-                    <TextField
-                      placeholder="Comment Here!"
-                      multiline
-                      rows={2}
-                      margin="normal"
-                      variant="outlined"
-                      id="comment"
-                      name="comment"
-                      value={values.comment}
-                      onChange={handleChange}
-                      error={touched.comment && Boolean(errors.comment)}
-                      helperText={touched.comment && errors.comment}
-                    />
-
-                    <Button color="primary" variant="contained" type="submit">
-                      Submit
-                    </Button>
-                    {comments.error && (
-                      <Alert
-                        className={classes.error}
-                        style={{ justifyContent: "center" }}
-                        severity="error"
-                      >
-                        {comments.error}
-                      </Alert>
-                    )}
-                  </form>
-                )}
-              </Formik>
+                      <Button color="primary" variant="contained" type="submit">
+                        Submit
+                      </Button>
+                      {comments.error && (
+                        <Alert
+                          className={classes.error}
+                          style={{ justifyContent: "center" }}
+                          severity="error"
+                        >
+                          {comments.error}
+                        </Alert>
+                      )}
+                    </form>
+                  )}
+                </Formik>
+              )}
             </div>
           </div>
         </Paper>

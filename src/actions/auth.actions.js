@@ -9,7 +9,17 @@ export const logIn = (user) => {
       });
 
       if (res.status === 200) {
-        const { token, postedAds, catalogue, firstName, _id, role } = res.data;
+        const {
+          token,
+          postedAds,
+          catalogue,
+          firstName,
+          _id,
+          role,
+          lastName,
+          contactInfo,
+          email,
+        } = res.data;
         localStorage.setItem("token", token);
         dispatch({
           type: authConstants.LOGIN_SUCCESS,
@@ -25,6 +35,9 @@ export const logIn = (user) => {
             postedAds,
             catalogue,
             firstName,
+            lastName,
+            email,
+            contactInfo,
             _id,
           },
         });

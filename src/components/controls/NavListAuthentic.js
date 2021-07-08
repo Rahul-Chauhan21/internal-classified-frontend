@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Typography, Box, Button, IconButton } from "@material-ui/core";
+import { Typography, Box, Button, IconButton, Hidden } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { logOut } from "../../actions";
@@ -26,14 +26,24 @@ const NavListAuthentic = () => {
 
   return (
     <Box className={classes.navList}>
-      <IconButton color="inherit" aria-label="user info">
+      <IconButton
+        color="inherit"
+        aria-label="user info"
+        component={Link}
+        to="/dashboard"
+      >
         <AccountCircle />
       </IconButton>
-      <Typography color="inherit" variant="subtitle2">
-        Hi, {user.firstName}
-      </Typography>
-      <Button color="inherit" onClick={handleClick}>
+      <Hidden smDown>
+        <Typography color="inherit" variant="subtitle2">
+          Hi, {user.firstName}
+        </Typography>
+      </Hidden>
+      <Button color="inherit" onClick={handleClick} component={Link} to="/">
         Sign Out
+      </Button>
+      <Button color="inherit" component={Link} to="/sell">
+        Sell
       </Button>
     </Box>
   );

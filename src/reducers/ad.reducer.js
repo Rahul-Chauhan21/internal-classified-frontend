@@ -1,7 +1,9 @@
+import { FreeBreakfastOutlined } from "@material-ui/icons";
 import { adConstants } from "../actions/constants";
 
 const initState = {
   posts: [],
+  userCatalogue: [],
   approvedAds: [],
   ad: null,
   message: null,
@@ -128,6 +130,37 @@ export default (state = initState, action) => {
         ...state,
         error: action.payload.error,
         message: null,
+      };
+      break;
+
+    case adConstants.GETCATALOGUE_SUCCESS:
+      state = {
+        ...state,
+        userCatalogue: action.payload.catalogue,
+        error: null,
+      };
+      break;
+
+    case adConstants.GETCATALOGUE_FAILURE:
+      state = {
+        ...state,
+        error: action.payload.error,
+      };
+      break;
+
+    case adConstants.BUY_STATUS:
+      state = {
+        ...state,
+        ad: action.payload.ad,
+        error: null,
+        message: "Purchase Successful! Thanks for Shopping.",
+      };
+      break;
+
+    case adConstants.BUY_FAILURE:
+      state = {
+        ...state,
+        error: action.payload.error,
       };
       break;
   }

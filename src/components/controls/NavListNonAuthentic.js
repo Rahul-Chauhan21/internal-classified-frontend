@@ -15,10 +15,10 @@ const NavListNonAuthentic = () => {
   const classes = useStyles();
   return (
     <Box className={classes.navList}>
-      <Button color="inherit" componet={Link}>
+      <Button color="inherit" component={Link} to={"/login"}>
         Sign In
       </Button>
-      <Button color="inherit" componet={Link}>
+      <Button color="inherit" component={Link} to={"/sell"}>
         Sell
       </Button>
     </Box>

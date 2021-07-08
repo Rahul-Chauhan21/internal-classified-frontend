@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid, Container, makeStyles, Typography } from "@material-ui/core";
 import AdCard from "./AdCard";
 import * as moment from "moment";
-import { getAds } from "../actions";
+import { getCatalogue } from "../actions";
+import NoFavorites from "./NoFavorites";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,32 +17,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdCards = () => {
+const ViewCatalogue = () => {
   const classes = useStyles();
   const ads = useSelector((state) => state.ads);
-  const { approvedAds } = ads;
+  const { userCatalogue } = ads;
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchAds();
+    fetchCatalogue();
   }, []);
 
-  const fetchAds = () => {
-    dispatch(getAds());
+  const fetchCatalogue = () => {
+    dispatch(getCatalogue(auth.token));
   };
 
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Typography variant="h6" align="center" gutterBottom>
-        Recently Added
+        Your Catalogue
       </Typography>
       <hr />
       <Grid container>
-        {approvedAds.length ? (
-          approvedAds.map((ad) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={ad._id}>
+        {userCatalogue && userCatalogue.length ? (
+          userCatalogue.map((ad) => (
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <AdCard
-                id={ad._id}
                 name={ad.name}
                 img={ad.imageUrls[0]}
                 price={ad.price}
@@ -51,11 +52,11 @@ const AdCards = () => {
             </Grid>
           ))
         ) : (
-          <>No Ad found!</>
+          <NoFavorites />
         )}
       </Grid>
     </Container>
   );
 };
 
-export default AdCards;
+export default ViewCatalogue;

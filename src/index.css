@@ -29,6 +29,16 @@ hr {
   width: 10%;
 }
 
+a {
+  text-decoration: none !important;
+}
+
+a:hover {
+  color: white !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
 * {
   /* transition: 0.3s; */
   box-sizing: border-box;

@@ -1,5 +1,5 @@
 import axios from "../util/axios";
-import { adConstants, userConstants } from "./constants";
+import { adConstants, userConstants, authConstants } from "./constants";
 
 export const createUser = (user) => {
   return async (dispatch) => {
@@ -19,7 +19,6 @@ export const createUser = (user) => {
       }
     } catch (err) {
       if (err.response.status === 400) {
-        console.log(err.response);
         dispatch({
           type: userConstants.CREATEUSER_FAILURE,
           payload: {
@@ -73,3 +72,130 @@ export const getUserInfo = (token) => {
     }
   };
 };
+
+export const editUserInfo = (token, user, id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: userConstants.REQUEST,
+      });
+
+      const res = await axios.put(
+        `/users/${id}`,
+        { ...user },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+      if (res.status === 200) {
+        const { user } = res.data;
+        const { firstName, lastName, email, contactInfo } = user;
+        dispatch({
+          type: userConstants.UPDATE_USERAUTHDETAILS,
+          payload: {
+            firstName,
+            lastName,
+            email,
+            contactInfo,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 403
+      ) {
+        dispatch({
+          type: userConstants.UPDATE_USERAUTHDETAILS_FAILURE,
+          payload: {
+            error: "Failed to update user Info",
+          },
+        });
+      }
+    }
+  };
+};
+
+export const addToCatalogue = (token, adId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `/users/addToCatalogue/${adId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+      if (res.status === 200) {
+        const { catalogue } = res.data;
+        dispatch({
+          type: userConstants.UPDATE_USERCATALOGUE,
+          payload: {
+            catalogue,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 403
+      ) {
+        dispatch({
+          type: userConstants.UPDATE_USERCATALOGUE_FAILURE,
+          payload: {
+            error: "Failed to update Catalogue",
+          },
+        });
+      }
+    }
+  };
+};
+
+export const removeFromCatalogue = (token, adId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(
+        `/users/removeFromCatalogue/${adId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+      if (res.status === 200) {
+        const { catalogue } = res.data;
+        dispatch({
+          type: userConstants.UPDATE_USERCATALOGUE,
+          payload: {
+            catalogue,
+          },
+        });
+      }
+    } catch (err) {
+      if (
+        err.response.status === 400 ||
+        err.response.status === 401 ||
+        err.response.status === 403
+      ) {
+        dispatch({
+          type: userConstants.UPDATE_USERCATALOGUE_FAILURE,
+          payload: {
+            error: "Failed to update Catalogue",
+          },
+        });
+      }
+    }
+  };
+};
+
+export const buyAd = () => {};

@@ -7,6 +7,9 @@ const initState = {
   postedAds: [],
   catalogue: [],
   firstName: null,
+  lastName: null,
+  email: null,
+  contactInfo: null,
   id: null,
 };
 
@@ -34,6 +37,9 @@ export default (state = initState, action) => {
         postedAds: action.payload.postedAds,
         catalogue: action.payload.catalogue,
         firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        email: action.payload.email,
+        contactInfo: action.payload.contactInfo,
         id: action.payload._id,
       };
       break;
@@ -50,6 +56,46 @@ export default (state = initState, action) => {
       state = {
         ...state,
         error: action.payload.error,
+      };
+      break;
+
+    case userConstants.UPDATE_USERAUTHDETAILS:
+      state = {
+        ...state,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        email: action.payload.email,
+        contactInfo: action.payload.contactInfo,
+        message: "User Details updated!",
+      };
+      break;
+
+    case userConstants.UPDATE_USERAUTHDETAILS_FAILURE:
+      state = {
+        ...state,
+        error: action.payload.error,
+      };
+      break;
+
+    case userConstants.REQUEST:
+      state = {
+        ...state,
+        error: null,
+        message: null,
+      };
+      break;
+
+    case userConstants.UPDATE_USERCATALOGUE:
+      state = {
+        ...state,
+        catalogue: action.payload.catalogue,
+      };
+      break;
+
+    case userConstants.UPDATE_USERAUTHDETAILS_FAILURE:
+      state = {
+        ...state,
+        error: "Toggle Failed!",
       };
       break;
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import {
   AppBar,
@@ -39,6 +40,8 @@ const Nav = () => {
             noWrap
             className={classes.brandName}
             color="inherit"
+            component={Link}
+            to="/"
           >
             Grads-Advert
           </Typography>
