@@ -98,6 +98,12 @@ export default (state = initState, action) => {
         error: "Toggle Failed!",
       };
       break;
+
+    case userConstants.USER_CLEAR_AUTHDETAILS:
+      state = {
+        ...initState,
+      };
+      break;
   }
   return state;
 };

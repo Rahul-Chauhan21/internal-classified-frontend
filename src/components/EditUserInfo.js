@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editUserInfo } from "../actions";
 
-import {
-  Typography,
-  Button,
-  Container,
-  Link as MuiLink,
-  makeStyles,
-} from "@material-ui/core";
+import { Typography, Button, Container, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useForm, Form } from "../hooks/useForm";
 import { Controls } from "../components/controls/Controls";
@@ -106,7 +100,7 @@ const EditUserInfo = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.root}>
+    <Container maxWidth="xs" className={classes.root}>
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Edit Profile
@@ -150,7 +144,13 @@ const EditUserInfo = () => {
           />
 
           <div style={{ marginTop: "1rem" }}>
-            <Button style={{ marginRight: "5px" }}>Discard</Button>
+            <Button
+              style={{ marginRight: "5px" }}
+              component={Link}
+              to={"/dashboard"}
+            >
+              Discard
+            </Button>
             <Button type="submit" variant="contained" color="primary">
               Save Changes
             </Button>

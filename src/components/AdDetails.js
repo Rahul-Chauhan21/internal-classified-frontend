@@ -6,6 +6,7 @@ import {
   postComment,
   addToCatalogue,
   removeFromCatalogue,
+  unMountAd,
 } from "../actions";
 // import { buyAd } from "../actions/ad.actions";
 import {
@@ -72,6 +73,10 @@ const AdDetails = () => {
 
   useEffect(() => {
     fetchAdDetails();
+    setBuy(false);
+    return () => {
+      dispatch(unMountAd());
+    };
   }, []);
 
   const fetchAdDetails = () => {
@@ -153,7 +158,10 @@ const AdDetails = () => {
                           <FavoriteBorder />
                         </IconButton>
                       );
-                    if (auth.token && user.id === userInfo._id) {
+                    if (
+                      (auth.token && user.id === userInfo._id) ||
+                      buy === true
+                    ) {
                       return <></>;
                     }
 
@@ -199,7 +207,7 @@ const AdDetails = () => {
                     );
                   }
 
-                  if (!auth.token)
+                  if (!auth.token || user.id !== userInfo._id)
                     return (
                       <Button
                         color="primary"
@@ -299,7 +307,12 @@ const AdDetails = () => {
                         helperText={touched.comment && errors.comment}
                       />
 
-                      <Button color="primary" variant="contained" type="submit">
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        disabled={buy || !auth.token}
+                      >
                         Submit
                       </Button>
                       {comments.error && (

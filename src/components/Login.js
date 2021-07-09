@@ -89,7 +89,6 @@ const Login = () => {
         password,
       };
       dispatch(logIn(user));
-      history.goBack();
     }
   };
 

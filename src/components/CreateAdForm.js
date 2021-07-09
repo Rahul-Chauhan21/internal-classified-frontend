@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { clearImgArray, createAd } from "../actions";
+import { clearImgArray, createAd, postAdRequest } from "../actions";
 
 import {
   Grid,
@@ -109,6 +109,7 @@ const CreateAdForm = () => {
     e.preventDefault();
     const { adName, adDescription, categoryId, price, location } = values;
     if (validate()) {
+      dispatch(postAdRequest());
       Promise.all(ads.imgArray.map(async (file) => getImgUrls(file))).then(
         (result) => {
           const ad = {
@@ -121,8 +122,9 @@ const CreateAdForm = () => {
             location,
             imageUrls: result,
           };
-          dispatch(createAd(ad, auth.token));
-          history.push("/dashboard");
+          dispatch(createAd(ad, auth.token)).then(() => {
+            history.push("/dashboard");
+          });
         }
       );
     }
@@ -204,6 +206,17 @@ const CreateAdForm = () => {
             </Grid>
           </Grid>
           <Controls.Button type="submit" text="Submit" />
+          {ads.message && (
+            <center>
+              <Alert
+                className={classes.error}
+                style={{ justifyContent: "center", width: "100%" }}
+                severity="success"
+              >
+                {ads.message}
+              </Alert>
+            </center>
+          )}
           {ads.error && (
             <center>
               <Alert

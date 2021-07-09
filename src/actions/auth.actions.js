@@ -61,5 +61,9 @@ export const logOut = () => {
     dispatch({
       type: authConstants.LOGOUT_REQUEST,
     });
+
+    dispatch({
+      type: userConstants.USER_CLEAR_AUTHDETAILS,
+    });
   };
 };

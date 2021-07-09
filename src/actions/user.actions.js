@@ -120,6 +120,14 @@ export const editUserInfo = (token, user, id) => {
   };
 };
 
+export const userRequestCall = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: userConstants.REQUEST,
+    });
+  };
+};
+
 export const addToCatalogue = (token, adId) => {
   return async (dispatch) => {
     try {

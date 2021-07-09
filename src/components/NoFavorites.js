@@ -1,10 +1,12 @@
 import React from "react";
 import noAds from "..//assets/no-publications.png";
 import { makeStyles, Box, Typography, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   noFavorites: {
-    margin: "0 auto",
+    margin: "auto",
+    marginTop: "0px !important",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -31,7 +33,9 @@ const NoFavorites = () => {
         Your new favorite ads are a like away! View details of an ad to add them
         to your catalogue.
       </Typography>
-      <Button>View Latest Ads</Button>
+      <Button component={Link} to={"/"}>
+        View Latest Ads
+      </Button>
     </Box>
   );
 };

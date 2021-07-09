@@ -83,7 +83,6 @@ export const getAdDetails = (id, token) => {
           type: adConstants.GETAD_SUCCESS,
           payload: {
             ad,
-            message: null,
             user,
           },
         });
@@ -91,7 +90,7 @@ export const getAdDetails = (id, token) => {
         dispatch({
           type: commentConstants.GETCOMMENTS_SUCCESS,
           payload: {
-            comments: comments,
+            comments,
           },
         });
       }
@@ -320,5 +319,29 @@ export const buyAd = (token, id) => {
         });
       }
     }
+  };
+};
+
+export const unMountAd = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: adConstants.RESET_AD_UNMOUNT,
+    });
+
+    dispatch({
+      type: commentConstants.RESET_COMMENTS_UNMOUNT,
+    });
+  };
+};
+
+export const postAdRequest = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: adConstants.REQUEST,
+    });
+
+    dispatch({
+      type: adConstants.POSTAD_REQUEST,
+    });
   };
 };

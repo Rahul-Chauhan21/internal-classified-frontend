@@ -1,7 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deletePost } from "../actions/ad.actions";
-import { getUserInfo } from "../actions";
+import { deletePost, getCatalogue } from "../actions/ad.actions";
+import { getUserInfo, userRequestCall } from "../actions";
+import { Route, Link, Switch } from "react-router-dom";
+import PrivateRoute from "./HOC/PrivateRoute";
+import AdminPrivateRoute from "./HOC/AdminRoute";
+import ManageAds from "./ManageAds";
+import EditUserInfo from "./EditUserInfo";
+import ViewCatalogue from "./ViewCatalogue";
 
 import {
   Container,
@@ -16,7 +22,8 @@ import {
 import { Controls } from "./controls/Controls";
 import { EditOutlined, DeleteForever } from "@material-ui/icons";
 import useTable from "../hooks/useTable";
-
+import Popup from "./Popup";
+import EditAdForm from "./EditAdForm";
 import NoAds from "./NoAds";
 import "../assets/responsivetable.css";
 
@@ -25,6 +32,15 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     overflow: "hidden",
     padding: "16px 20px",
+    "& .MuiButton-label:hover": {
+      color: "rgba(0, 0, 0, 0.87) !important",
+    },
+    "& .MuiButton-text:hover": {
+      color: "rgba(0, 0, 0, 0.87) !important",
+    },
+    "& .MuiLink-underlineHover:hover": {
+      color: "#1890ff !important",
+    },
   },
 
   profile: {
@@ -61,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [];
 
-const Dashboard = () => {
+const Dashboard = ({ match: { path } }) => {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const userSelector = useSelector((state) => state.user);
@@ -69,12 +85,16 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const { user } = userSelector;
 
+  const [recordForEdit, setRecordForEdit] = useState(null);
+  const [openPopup, setOpenPopup] = useState(false);
+
   useEffect(() => {
     fetchDetails();
   }, []);
 
   const fetchDetails = () => {
     dispatch(getUserInfo(auth.token));
+    dispatch(getCatalogue(auth.token));
   };
 
   const delPost = async (id) => {
@@ -87,6 +107,10 @@ const Dashboard = () => {
     headCells
   );
 
+  const openInPopup = (item) => {
+    setRecordForEdit(item);
+    setOpenPopup(true);
+  };
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Grid container spacing={1} className={classes.gridContainer}>
@@ -112,9 +136,20 @@ const Dashboard = () => {
               </Typography>
             </Box>
           </Box>
-          <Button>My Ads</Button>
-          <Button>View Catalogue</Button>
-          <Button>Edit Profile</Button>
+          <Button component={Link} to={`${path}/`}>
+            My Ads
+          </Button>
+          <Button component={Link} to={`${path}/view-catalogue`}>
+            View Catalogue
+          </Button>
+          <Button component={Link} to={`${path}/edit-profile`}>
+            Edit Profile
+          </Button>
+          {auth.role === "Admin" && (
+            <Button component={Link} to={`${path}/verification`}>
+              Verify Posts
+            </Button>
+          )}
           <Hidden smDown>
             <Typography variant="body2" align="center" gutterBottom>
               Member since July 2021
@@ -125,66 +160,88 @@ const Dashboard = () => {
             </Typography>
           </Hidden>
         </Grid>
-
-        <Grid item md={9} xs={12}>
-          {ads.posts.length ? (
-            <>
-              <Typography variant="h6" align="center">
-                Your Ads
-              </Typography>
-              <TblContainer>
-                <thead>
-                  <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Ad Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Visibility</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recordsAfterPaging().map((record, idx) => (
-                    <tr key={record._id}>
-                      <td data-label="Id">{idx + 1}</td>
-                      <td data-label="Ad Name">{record.name}</td>
-                      <td data-label="Category">{record.category}</td>
-                      <td data-label="Visibility">
-                        {record.isVisible ? "Visibile" : "Hidden"}
-                      </td>
-                      <td data-label="Status">{record.status}</td>
-                      <td data-label="Action">
-                        <div>
-                          <Controls.ActionButton
-                            color="primary"
-                            //   component={Link}
-                            to={{
-                              pathname: ``,
-                              state: {
-                                //   id: record._id,
-                              },
-                            }}
-                          >
-                            <EditOutlined fontSize="small" />
-                          </Controls.ActionButton>
-                          <Controls.ActionButton color="secondary">
-                            <DeleteForever
-                              fontSize="small"
-                              onClick={() => delPost(record._id)}
-                            />
-                          </Controls.ActionButton>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </TblContainer>
-              <TblPagination />{" "}
-            </>
-          ) : (
-            <NoAds />
-          )}
-        </Grid>
+        <Switch>
+          <Route path={`${path}/`} exact>
+            <Grid item md={9} xs={12}>
+              {ads.posts.length ? (
+                <>
+                  <Typography variant="h6" align="center">
+                    Your Ads
+                  </Typography>
+                  <TblContainer>
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Ad Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Visibility</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recordsAfterPaging().map((record, idx) => (
+                        <tr key={record._id}>
+                          <td data-label="Id">{idx + 1}</td>
+                          <td data-label="Ad Name">{record.name}</td>
+                          <td data-label="Category">{record.category}</td>
+                          <td data-label="Visibility">
+                            {record.isVisible ? "Visibile" : "Hidden"}
+                          </td>
+                          <td data-label="Status">{record.status}</td>
+                          <td data-label="Action">
+                            <div>
+                              <Controls.ActionButton
+                                color="primary"
+                                onClick={() => {
+                                  dispatch(userRequestCall());
+                                  openInPopup(record);
+                                }}
+                              >
+                                <EditOutlined fontSize="small" />
+                              </Controls.ActionButton>
+                              <Controls.ActionButton color="secondary">
+                                <DeleteForever
+                                  fontSize="small"
+                                  onClick={() => delPost(record._id)}
+                                />
+                              </Controls.ActionButton>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </TblContainer>
+                  <TblPagination />
+                  <Popup
+                    title="Edit Your Ad Details"
+                    openPopup={openPopup}
+                    setOpenPopup={setOpenPopup}
+                  >
+                    <EditAdForm recordForEdit={recordForEdit} />
+                  </Popup>
+                </>
+              ) : (
+                <NoAds />
+              )}
+            </Grid>
+          </Route>
+          <PrivateRoute
+            exact
+            path={`${path}/view-catalogue`}
+            component={ViewCatalogue}
+          />
+          <PrivateRoute
+            exact
+            path={`${path}/edit-profile`}
+            component={EditUserInfo}
+          />
+          <AdminPrivateRoute
+            exact
+            path={`${path}/verification`}
+            component={ManageAds}
+          />
+        </Switch>
       </Grid>
     </Container>
   );

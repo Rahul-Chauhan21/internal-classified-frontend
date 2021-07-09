@@ -1,7 +1,11 @@
 import React from "react";
+import { useHistory } from "react-router";
+import { Link } from "@material-ui/core";
 import "../assets/accessDenied.scss";
-import { Link } from "react-router-dom";
+
 const AccessDenied = () => {
+  const history = useHistory();
+
   return (
     <div class="page-wrap">
       <div class="page-not-found">
@@ -13,8 +17,8 @@ const AccessDenied = () => {
         <h4 class="text-md">Access Denied !</h4>
         <h4 class="text-sm text-sm-btm">
           You don’t have access to this area of application. Speak to your
-          administrator to unblock this feature. You can go back to{" "}
-          <Link to="/">Home</Link>
+          administrator to unblock this feature. For now you can{" "}
+          <Link onClick={() => history.goBack()}>go back</Link>.
         </h4>
       </div>
     </div>

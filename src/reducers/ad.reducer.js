@@ -1,4 +1,3 @@
-import { FreeBreakfastOutlined } from "@material-ui/icons";
 import { adConstants } from "../actions/constants";
 
 const initState = {
@@ -45,7 +44,6 @@ export default (state = initState, action) => {
       state = {
         ...state,
         ad: action.payload.ad,
-        message: action.payload.message,
         userInfo: action.payload.user,
       };
       break;
@@ -161,6 +159,21 @@ export default (state = initState, action) => {
       state = {
         ...state,
         error: action.payload.error,
+      };
+      break;
+
+    case adConstants.RESET_AD_UNMOUNT:
+      state = {
+        ...state,
+        ad: null,
+        userInfo: null,
+      };
+      break;
+
+    case adConstants.POSTAD_REQUEST:
+      state = {
+        ...state,
+        message: "Processing your Ad, Please Wait!",
       };
       break;
   }

@@ -2,7 +2,6 @@ import React from "react";
 import { CssBaseline, makeStyles } from "@material-ui/core";
 import { Route, Switch } from "react-router-dom";
 
-import AdminPrivateRoute from "./components/HOC/AdminRoute";
 import PrivateRoute from "./components/HOC/PrivateRoute";
 
 import Nav from "./components/Nav";
@@ -13,11 +12,8 @@ import PopularCategories from "./components/PopularCategories";
 import AdCards from "./components/AdCards";
 import Footer from "./components/Footer";
 import AdDetails from "./components/AdDetails";
-import ManageAds from "./components/ManageAds";
 import ScrollButton from "./components/ScrollButton";
 import Dashboard from "./components/Dashboard";
-import ViewCatalogue from "./components/ViewCatalogue";
-import EditUserInfo from "./components/EditUserInfo";
 import NotFound from "./components/NotFound";
 import AccessDenied from "./components/AccessDenied";
 
@@ -60,22 +56,10 @@ function App() {
             <AdDetails />
           </Route>
 
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
 
           <PrivateRoute exact path="/sell" component={CreateAdForm} />
 
-          <PrivateRoute
-            exact
-            path="/dashboard/edit-profile"
-            component={EditUserInfo}
-          />
-
-          {/* <ViewCatalogue /> */}
-          <AdminPrivateRoute
-            exact
-            path="/dashboard/verification"
-            component={ManageAds}
-          />
           <PrivateRoute exact path="/access-denied" component={AccessDenied} />
 
           <Route>

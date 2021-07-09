@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, Container, makeStyles, Typography } from "@material-ui/core";
+import NoAds from "./NoAds";
 import AdCard from "./AdCard";
 import * as moment from "moment";
 import { getAds } from "../actions";
@@ -51,7 +52,7 @@ const AdCards = () => {
             </Grid>
           ))
         ) : (
-          <>No Ad found!</>
+          <NoAds />
         )}
       </Grid>
     </Container>

@@ -27,6 +27,14 @@ export default (state = initState, action) => {
         ...state,
         comments: action.payload.comments,
       };
+      break;
+
+    case commentConstants.RESET_COMMENTS_UNMOUNT:
+      state = {
+        ...state,
+        comments: [],
+      };
+      break;
   }
   return state;
 };
