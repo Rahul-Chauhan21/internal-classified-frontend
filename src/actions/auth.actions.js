@@ -1,5 +1,5 @@
 import axios from "../util/axios";
-import { authConstants, userConstants } from "./constants";
+import { adConstants, authConstants, userConstants } from "./constants";
 
 export const logIn = (user) => {
   return async (dispatch) => {
@@ -64,6 +64,10 @@ export const logOut = () => {
 
     dispatch({
       type: userConstants.USER_CLEAR_AUTHDETAILS,
+    });
+
+    dispatch({
+      type: adConstants.RESET_USER_AD_DETAILS,
     });
   };
 };

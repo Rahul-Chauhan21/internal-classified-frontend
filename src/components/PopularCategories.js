@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import {
   Grid,
   Container,
@@ -14,6 +15,7 @@ import {
   Build,
   Deck,
 } from "@material-ui/icons";
+import { updateFilter } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,8 +65,8 @@ const categoriesItems = [
 
 const PopularCategories = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const handleClick = () => {};
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Typography variant="h6" align="center" gutterBottom>
@@ -75,7 +77,7 @@ const PopularCategories = () => {
         Browse through some of our most popular categories.
       </Typography>
 
-      <Grid container onClick={handleClick}>
+      <Grid container>
         {categoriesItems?.map((category) => (
           <Grid
             key={category.title}
@@ -84,6 +86,7 @@ const PopularCategories = () => {
             sm={6}
             xs={12}
             className={classes.categoryItem}
+            onClick={() => dispatch(updateFilter(category.title))}
           >
             <IconButton
               color="inherit"

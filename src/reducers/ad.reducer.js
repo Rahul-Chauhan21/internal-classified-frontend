@@ -2,6 +2,7 @@ import { adConstants } from "../actions/constants";
 
 const initState = {
   posts: [],
+  userPosts: [],
   userCatalogue: [],
   approvedAds: [],
   ad: null,
@@ -24,6 +25,13 @@ export default (state = initState, action) => {
       state = {
         ...state,
         message: action.payload.message,
+      };
+      break;
+
+    case adConstants.GETUSERPOSTS_SUCCESS:
+      state = {
+        ...state,
+        userPosts: action.payload.userPosts,
       };
       break;
 
@@ -174,6 +182,15 @@ export default (state = initState, action) => {
       state = {
         ...state,
         message: "Processing your Ad, Please Wait!",
+      };
+      break;
+
+    case adConstants.RESET_USER_AD_DETAILS:
+      state = {
+        ...state,
+        posts: [],
+        userPosts: [],
+        userCatalogue: [],
       };
       break;
   }

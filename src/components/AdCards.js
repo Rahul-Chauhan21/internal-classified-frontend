@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
 const AdCards = () => {
   const classes = useStyles();
   const ads = useSelector((state) => state.ads);
+  const filterSelector = useSelector((state) => state.filter);
+  const { filter } = filterSelector;
   const { approvedAds } = ads;
   const dispatch = useDispatch();
 
@@ -39,7 +41,10 @@ const AdCards = () => {
       <hr />
       <Grid container>
         {approvedAds.length ? (
-          approvedAds.map((ad) => (
+          (filter === "All"
+            ? approvedAds
+            : approvedAds.filter((ad) => ad.category === filter)
+          ).map((ad) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={ad._id}>
               <AdCard
                 id={ad._id}

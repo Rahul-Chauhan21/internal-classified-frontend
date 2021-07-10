@@ -47,3 +47,9 @@
 .picks .second .adTitle {
   text-transform: uppercase;
 }
+
+@media (max-width: 600px) {
+  .picks figure {
+    pointer-events: none;
+  }
+}

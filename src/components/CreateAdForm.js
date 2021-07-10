@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(3),
     position: "relative",
+    [theme.breakpoints.down("sm")]: {
+      margin: "8px 0 0 0",
+    },
   },
   root: {
     margin: "auto",
@@ -82,7 +85,9 @@ const CreateAdForm = () => {
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(clearImgArray());
+    return () => {
+      dispatch(clearImgArray());
+    };
   }, []);
 
   const validate = () => {

@@ -103,7 +103,7 @@ const Dashboard = ({ match: { path } }) => {
   };
 
   const { TblContainer, TblPagination, recordsAfterPaging } = useTable(
-    ads.posts,
+    ads.userPosts,
     headCells
   );
 
@@ -136,34 +136,40 @@ const Dashboard = ({ match: { path } }) => {
               </Typography>
             </Box>
           </Box>
-          <Button component={Link} to={`${path}/`}>
-            My Ads
-          </Button>
-          <Button component={Link} to={`${path}/view-catalogue`}>
-            View Catalogue
-          </Button>
-          <Button component={Link} to={`${path}/edit-profile`}>
-            Edit Profile
-          </Button>
-          {auth.role === "Admin" && (
-            <Button component={Link} to={`${path}/verification`}>
-              Verify Posts
-            </Button>
-          )}
           <Hidden smDown>
-            <Typography variant="body2" align="center" gutterBottom>
-              Member since July 2021
-            </Typography>
-
-            <Typography varaint="body2" component={MuiLink} align="center">
-              Share profile Link
-            </Typography>
+            <Button component={Link} to={`${path}/`}>
+              My Ads
+            </Button>
+            <Button component={Link} to={`${path}/view-catalogue`}>
+              View Catalogue
+            </Button>
+            <Button component={Link} to={`${path}/edit-profile`}>
+              Edit Profile
+            </Button>
+            {auth.role === "Admin" && (
+              <Button component={Link} to={`${path}/verification`}>
+                Verify Posts
+              </Button>
+            )}
           </Hidden>
+
+          <Typography
+            variant="body2"
+            align="center"
+            gutterBottom
+            style={{ marginTop: "8px" }}
+          >
+            Member since July 2021
+          </Typography>
+
+          <Typography varaint="body2" component={MuiLink} align="center">
+            Share profile Link
+          </Typography>
         </Grid>
         <Switch>
           <Route path={`${path}/`} exact>
             <Grid item md={9} xs={12}>
-              {ads.posts.length ? (
+              {ads.userPosts.length ? (
                 <>
                   <Typography variant="h6" align="center">
                     Your Ads

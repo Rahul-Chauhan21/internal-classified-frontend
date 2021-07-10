@@ -7,6 +7,7 @@ import authReducer from "./auth.reducer";
 import userReducer from "./user.reducer";
 import adReducer from "./ad.reducer";
 import commentReducer from "./comment.reducer";
+import filterReducer from "./filter.reducer";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   ads: adReducer,
   comments: commentReducer,
+  filter: filterReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

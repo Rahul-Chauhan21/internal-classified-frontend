@@ -1,5 +1,5 @@
 import React from "react";
-import { CssBaseline, makeStyles } from "@material-ui/core";
+import { CssBaseline, makeStyles, Hidden } from "@material-ui/core";
 import { Route, Switch } from "react-router-dom";
 
 import PrivateRoute from "./components/HOC/PrivateRoute";
@@ -16,6 +16,7 @@ import ScrollButton from "./components/ScrollButton";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
 import AccessDenied from "./components/AccessDenied";
+import CategoryPopup from "./components/CategoryPopup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,8 +36,10 @@ function App() {
       <CssBaseline />
       <header>
         <Nav />
+        <div className={classes.toolbar}></div>
+
+        <CategoryPopup />
       </header>
-      <div className={classes.toolbar}></div>
       <main>
         <Switch>
           <Route exact path="/login">
@@ -48,7 +51,9 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            <PopularCategories />
+            <Hidden xsDown>
+              <PopularCategories />
+            </Hidden>
             <AdCards />
           </Route>
 

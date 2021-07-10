@@ -49,9 +49,9 @@ export const getUserInfo = (token) => {
         });
 
         dispatch({
-          type: adConstants.GETPOSTS_SUCCESS,
+          type: adConstants.GETUSERPOSTS_SUCCESS,
           payload: {
-            posts: ads,
+            userPosts: ads,
           },
         });
       }

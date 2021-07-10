@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editUserInfo } from "../actions";
+import { editUserInfo, userRequestCall } from "../actions";
 
 import { Typography, Button, Container, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { useForm, Form } from "../hooks/useForm";
 import { Controls } from "../components/controls/Controls";
@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     overflow: "hidden",
     padding: "0 20px",
+    "& .MuiInputBase-root ": {
+      marginBottom: theme.spacing(1),
+    },
   },
   paper: {
     marginTop: theme.spacing(2),
@@ -27,12 +30,22 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     width: "75%",
   },
+  buttonContainer: {
+    [theme.breakpoints.up("md")]: {
+      marginTop: theme.spacing(1),
+    },
+    [theme.breakpoints.down("xs")]: {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
 }));
 
 const EditUserInfo = () => {
   const classes = useStyles();
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
+  const history = useHistory();
 
   const initialFValues = {
     firstName: user.firstName,
@@ -97,7 +110,16 @@ const EditUserInfo = () => {
       };
       dispatch(editUserInfo(auth.token, req, user.id));
     }
+    setTimeout(() => {
+      history.push("/dashboard");
+    }, 1000);
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(userRequestCall());
+    };
+  }, []);
 
   return (
     <Container maxWidth="xs" className={classes.root}>
@@ -143,7 +165,7 @@ const EditUserInfo = () => {
             fullWidth
           />
 
-          <div style={{ marginTop: "1rem" }}>
+          <div className={classes.buttonContainer}>
             <Button
               style={{ marginRight: "5px" }}
               component={Link}

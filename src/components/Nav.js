@@ -18,6 +18,18 @@ import NavListNonAuthentic from "./controls/NavListNonAuthentic";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    "& .MuiToolbar-gutters": {
+      [theme.breakpoints.down("xs")]: {
+        paddingRight: "0 !important",
+        paddingLeft: "0 !important",
+      },
+      "& a": {
+        color: "inherit !important",
+      },
+      "& a:hover": {
+        color: "inherit !important",
+      },
+    },
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -40,10 +52,8 @@ const Nav = () => {
             noWrap
             className={classes.brandName}
             color="inherit"
-            component={Link}
-            to="/"
           >
-            Grads-Advert
+            <Link to={"/"}>Grads-Advert</Link>
           </Typography>
           {auth.token ? <NavListAuthentic /> : <NavListNonAuthentic />}
         </Toolbar>
