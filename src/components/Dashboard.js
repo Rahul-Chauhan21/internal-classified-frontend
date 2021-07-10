@@ -126,13 +126,13 @@ const Dashboard = ({ match: { path } }) => {
             </Box>
             <Box component="div" className={classes.profileContent}>
               <Typography variant="body2" gutterBottom>
-                Full Name: {user?.firstName} {user?.lastName}
+                Full Name: {userSelector?.firstName} {userSelector?.lastName}
               </Typography>
               <Typography variant="body2" gutterBottom>
-                Email : {user?.email}
+                Email : {userSelector?.email}
               </Typography>
               <Typography variant="body2" gutterBottom>
-                Contact: {user?.contactInfo}
+                Contact: {userSelector?.contactInfo}
               </Typography>
             </Box>
           </Box>
@@ -224,7 +224,10 @@ const Dashboard = ({ match: { path } }) => {
                     openPopup={openPopup}
                     setOpenPopup={setOpenPopup}
                   >
-                    <EditAdForm recordForEdit={recordForEdit} />
+                    <EditAdForm
+                      recordForEdit={recordForEdit}
+                      updateUserPosts={true}
+                    />
                   </Popup>
                 </>
               ) : (

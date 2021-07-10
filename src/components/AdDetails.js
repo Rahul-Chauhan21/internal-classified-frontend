@@ -28,6 +28,7 @@ import "../assets/FullDetails.css";
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import FetchingDetails from "./FetchingDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,7 +103,7 @@ const AdDetails = () => {
 
   return (
     <Container maxWidth="lg" className={classes.root}>
-      {ad && (
+      {ad ? (
         <Paper elevation={3}>
           <div className="details">
             <div className="big-img">
@@ -331,6 +332,8 @@ const AdDetails = () => {
             </div>
           </div>
         </Paper>
+      ) : (
+        <FetchingDetails />
       )}
     </Container>
   );

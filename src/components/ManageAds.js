@@ -138,7 +138,7 @@ const ManageAds = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <EditAdForm recordForEdit={recordForEdit} />
+        <EditAdForm recordForEdit={recordForEdit} updateUserPosts={false} />
       </Popup>
     </Grid>
   );

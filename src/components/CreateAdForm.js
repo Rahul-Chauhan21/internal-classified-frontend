@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { clearImgArray, createAd, postAdRequest } from "../actions";
+import {
+  clearImgArray,
+  createAd,
+  postAdRequest,
+  requestCall,
+} from "../actions";
 
 import {
   Grid,
@@ -85,6 +90,7 @@ const CreateAdForm = () => {
   const history = useHistory();
 
   useEffect(() => {
+    dispatch(requestCall());
     return () => {
       dispatch(clearImgArray());
     };

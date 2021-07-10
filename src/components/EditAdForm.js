@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editAd } from "../actions";
+import { editAd, editUserAd } from "../actions";
 import { Grid, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useForm, Form } from "../hooks/useForm";
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditAdForm = (props) => {
-  const { recordForEdit } = props;
+  const { recordForEdit, updateUserPosts } = props;
   const classes = useStyles();
   const ads = useSelector((state) => state.ads);
   const auth = useSelector((state) => state.auth);
@@ -100,7 +100,9 @@ const EditAdForm = (props) => {
         price,
       };
 
-      dispatch(editAd(auth.token, values._id, ad));
+      updateUserPosts
+        ? dispatch(editUserAd(auth.token, values._id, ad))
+        : dispatch(editAd(auth.token, values._id, ad));
     }
   };
 

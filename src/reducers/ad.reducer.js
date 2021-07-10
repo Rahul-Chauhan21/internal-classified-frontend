@@ -131,6 +131,18 @@ export default (state = initState, action) => {
       };
       break;
 
+    case adConstants.UPDATEUSERPOST_SUCCESS:
+      const userFilteredPosts = state.userPosts.filter(
+        (post) => post._id !== action.payload.post._id
+      );
+      state = {
+        ...state,
+        userPosts: [...userFilteredPosts, action.payload.post],
+        error: null,
+        message: "Updated!",
+      };
+      break;
+
     case adConstants.UPDATEPOST_FAILURE:
       state = {
         ...state,
