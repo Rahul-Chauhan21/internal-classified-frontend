@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createUser } from "../actions";
+import { createUser, userRequestCall } from "../actions";
 
 import {
   Grid,
@@ -123,6 +123,12 @@ const SignUp = () => {
       }, 1000);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(userRequestCall());
+    };
+  }, []);
 
   if (auth.token) return <Redirect to="/" />;
 

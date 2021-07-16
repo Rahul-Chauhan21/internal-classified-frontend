@@ -67,9 +67,7 @@ function App() {
 
           <PrivateRoute exact path="/access-denied" component={AccessDenied} />
 
-          <Route>
-            <NotFound />
-          </Route>
+          <Route component={NotFound} />
         </Switch>
       </main>
       <ScrollButton />

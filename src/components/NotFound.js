@@ -7,7 +7,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down("md")]: {
       flexDirection: "column-reverse",
+      alignItems: "center",
+      marginTop: "2.5%",
+      marginBottom: "2.5%",
     },
+    marginTop: "10%",
   },
   notFoundContent: {
     display: "flex",

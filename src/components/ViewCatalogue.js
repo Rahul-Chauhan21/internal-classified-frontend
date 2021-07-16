@@ -35,25 +35,27 @@ const ViewCatalogue = () => {
       )}
       <Grid container spacing={1}>
         {userCatalogue && userCatalogue.length ? (
-          userCatalogue.map((ad) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              className={classes.adCard}
-              key={ad._id}
-            >
-              <AdCard
-                id={ad._id}
-                name={ad.name}
-                img={ad.imageUrls[0]}
-                price={ad.price}
-                category={ad.category}
-                date={moment(ad.date).format("MM/DD/YYYY")}
-              />
-            </Grid>
-          ))
+          userCatalogue
+            .filter((ad) => ad.isVisible === true)
+            .map((ad) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                className={classes.adCard}
+                key={ad._id}
+              >
+                <AdCard
+                  id={ad._id}
+                  name={ad.name}
+                  img={ad.imageUrls[0]}
+                  price={ad.price}
+                  category={ad.category}
+                  date={moment(ad.date).format("MM/DD/YYYY")}
+                />
+              </Grid>
+            ))
         ) : (
           <NoFavorites />
         )}

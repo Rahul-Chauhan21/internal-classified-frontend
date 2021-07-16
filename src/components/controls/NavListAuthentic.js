@@ -118,6 +118,9 @@ const NavListAuthentic = () => {
                   <MenuItem onClick={handleClose}>
                     <Link to="/dashboard/view-catalogue">View Catalogue</Link>
                   </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <Link to="/dashboard/edit-profile">Edit Profile</Link>
+                  </MenuItem>
                   {auth.role === "Admin" && (
                     <MenuItem onClick={handleClose}>
                       <Link to="/dashboard/verification">Verify Posts</Link>
